@@ -750,7 +750,10 @@ def get_call_arguments_arm64(e=get_screen_ea(), count_max=10, debug=False):
                             break
             elif any(instruction.replace(" ", "") in disasm_line.replace(" ", "") for instruction in instruction_list):
                 if i not in args.keys():
-                    args[i] = get_operand_value(e,1)
+                    if print_operand(e,1) == "WZR":
+                        args[i] = 0
+                    else:
+                        args[i] = get_operand_value(e,1)
                     if debug:
                         logmsg("Found argument %d: 0x%x" % (i, args[i]))
                     found = True
